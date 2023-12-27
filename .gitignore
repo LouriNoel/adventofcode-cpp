@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+# IDEs
+build
+.vscode
+
+# Advent of Code
+input.txt
