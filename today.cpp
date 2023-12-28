@@ -1,9 +1,18 @@
+#include "today.h"
+
 #include <chrono>
 #include <fstream>
-#include <iostream>
-#include <string>
 
-#include "today.h"
+#include <algorithm>
+#include <cstdint>
+#include <iostream>
+#include <numeric>
+#include <ranges>
+#include <regex>
+#include <string>
+#include <unordered_map>
+
+#include "input.h"
 
 using namespace std;
 using namespace aoc;

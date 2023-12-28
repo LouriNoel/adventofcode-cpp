@@ -4,7 +4,7 @@ Challenging myself to do [adventofcode](https://adventofcode.com) in C++
 
 My goal is to make a little C++ project using CMake, so I can learn it as well as modern C++.
 
-I intend to improve my solutions from time to time.
+I intend to improve my solutions from time to time, but older solutions can be kept along if they are interesting.
 
 ## Setting up the project
 
@@ -23,3 +23,5 @@ Then build and run the *aoc* target with the arguments *year* and *day*:
 ```
 ./build/Debug/aoc.exe 2023 1
 ```
+
+To use a particular solution, use the corresponding `-D` flag when compiling.

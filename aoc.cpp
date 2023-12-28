@@ -54,8 +54,10 @@ namespace {
 }
 
 int main(int argc, char *argv[]) {
-    typedef std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds> systime_ms;
-    auto gettime = []() { return std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()); };
+    typedef std::chrono::microseconds precision;
+    static const std::string unit = "us";
+    typedef std::chrono::time_point<std::chrono::system_clock, precision> systime;
+    auto gettime = []() { return std::chrono::time_point_cast<precision>(std::chrono::system_clock::now()); };
 
     std::vector<std::string> positional_arguments;
     std::unordered_map<std::string, std::string> options;
@@ -80,14 +82,14 @@ int main(int argc, char *argv[]) {
 
     std::fstream file(filename, std::ios::in);
 
-    systime_ms startTime, endTime;
+    systime startTime, endTime;
 
     startTime = gettime();
     long long res1 = exercise->star1(file);
     endTime = gettime();
 
     std::cout << "Star 1: " << res1 << std::endl;
-    std::cout << "(" << (endTime - startTime).count() << " ms)" << std::endl;
+    std::cout << "(" << (endTime - startTime).count() << " " << unit << ")" << std::endl;
     std::cout << std::endl;
 
     file.clear();
@@ -98,7 +100,7 @@ int main(int argc, char *argv[]) {
     endTime = gettime();
 
     std::cout << "Star 2: " << res2 << std::endl;
-    std::cout << "(" << (endTime - startTime).count() << " ms)" << std::endl;
+    std::cout << "(" << (endTime - startTime).count() << " " << unit << ")" << std::endl;
     std::cout << std::endl;
 
     file.close();
