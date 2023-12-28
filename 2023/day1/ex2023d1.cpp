@@ -46,7 +46,43 @@ long long Ex2023d1::star1(std::istream& input) {
 }
 #endif
 
-#ifdef EX2023DAY1_PART1_REGEX_FIRST_LAST
+#if defined EX2023DAY1_PART1_REGEX
+long long Ex2023d1::star2(std::istream& input) {
+    // Positive lookahead that only consumes 1 char, so it can find overlapping substrings when searching iteratively.
+    static regex re(R"((?=(\d|zero|one|two|three|four|five|six|seven|eight|nine)).)");
+
+    unordered_map<string, int> mapping = {
+        {"0", 0}, {"zero", 0},
+        {"1", 1}, {"one", 1},
+        {"2", 2}, {"two", 2},
+        {"3", 3}, {"three", 3},
+        {"4", 4}, {"four", 4},
+        {"5", 5}, {"five", 5},
+        {"6", 6}, {"six", 6},
+        {"7", 7}, {"seven", 7},
+        {"8", 8}, {"eight", 8},
+        {"9", 9}, {"nine", 9}
+    };
+
+    int sum = 0;
+
+    string line;
+    while (getline(input, line)) {
+        vector<int> digits;
+
+        auto begin = sregex_iterator(line.begin(), line.end(), re);
+        auto end = sregex_iterator();
+        for (auto it = begin; it != end; ++it) {
+            digits.emplace_back(mapping[(*it)[1]]); // select the (first) capturing group, otherwise we would only get the first character, the one which is consumed
+        }
+
+        int calibration = 10 * digits.front() + digits.back();
+        sum += calibration;
+    }
+
+    return sum;
+}
+#elif defined EX2023DAY1_PART1_REGEX_FIRST_LAST
 long long Ex2023d1::star2(std::istream& input) {
     static const regex re_forward(R"(\d|zero|one|two|three|four|five|six|seven|eight|nine)");
     static const regex re_backward(R"(\d|orez|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin)"); // the regex must also be reversed when searching backwards
@@ -84,8 +120,10 @@ long long Ex2023d1::star2(std::istream& input) {
 }
 #else
 long long Ex2023d1::star2(std::istream& input) {
-    // Positive lookahead that only consumes 1 char, so it can find overlapping substrings when searching iteratively.
-    static regex re(R"((?=(\d|zero|one|two|three|four|five|six|seven|eight|nine)).)");
+    static const unordered_set<string> tokens = {
+        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
+    };
 
     unordered_map<string, int> mapping = {
         {"0", 0}, {"zero", 0},
@@ -104,15 +142,10 @@ long long Ex2023d1::star2(std::istream& input) {
 
     string line;
     while (getline(input, line)) {
-        vector<int> digits;
+        auto [_, first_token] = aoc::find_first_substr_of(line, tokens);
+        auto [__, last_token] = aoc::find_last_substr_of(line, tokens);
 
-        auto begin = sregex_iterator(line.begin(), line.end(), re);
-        auto end = sregex_iterator();
-        for (auto it = begin; it != end; ++it) {
-            digits.emplace_back(mapping[(*it)[1]]); // select the (first) capturing group, otherwise we would only get the first character, the one which is consumed
-        }
-
-        int calibration = 10 * digits.front() + digits.back();
+        int calibration = 10 * mapping[first_token] + mapping[last_token];
         sum += calibration;
     }
 

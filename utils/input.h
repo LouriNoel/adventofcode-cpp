@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <tuple>
+#include <unordered_set>
 #include <vector>
 
 namespace aoc {
@@ -16,4 +18,7 @@ namespace aoc {
 	void getlines(std::istream& src, std::vector<std::string>& dest);
 
 	void digits(const std::string& src, std::vector<int>& dest);
+
+	std::tuple<std::string::size_type, std::string> find_first_substr_of(const std::string_view& src, const std::unordered_set<std::string>& candidates);
+	std::tuple<std::string::size_type, std::string> find_last_substr_of(const std::string_view& src, const std::unordered_set<std::string>& candidates);
 }

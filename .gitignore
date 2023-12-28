@@ -32,8 +32,9 @@
 *.app
 
 # IDEs
-build
 .vscode
+build
+build-mvc
 
 # Advent of Code
 input.txt

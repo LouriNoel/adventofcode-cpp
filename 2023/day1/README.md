@@ -56,7 +56,7 @@ Beware of `oneight`.
 
 ### Original implementation
 
-This implementation iterates 18 times over each line.
+This implementation iterates 18 times over each line. It was made in Python.
 
 For each line:
 1. For each token (1, ..., 9, one, ..., nine), find all the occurences in the line and remember their index
@@ -77,7 +77,7 @@ To retrieve the result, we must use a capturing group, otherwise we would only g
 3. Sum them all
 
 This only iterates once over each line... but being regex, it is slower anyway.  
-I still keep it because I find it more elegant.
+I still keep it around because I find it more elegant.
 
 ### Implementation n°3 (Optimization 1)
 
@@ -91,5 +91,21 @@ But we must be clever to search *backwards*:
 - another regex must be used when searching backwards : `\d|orez|eno|owt|eerht|ruof|evif|xis|neves|thgie|enin`
 - all these new candidates must be added to the map
 
+1. Find the first possible substring using regex, then map it onto its integer counterpart
+2. Find the last possible substring using regex, iterating backwards, then map it onto its integer counterpart
+3. Compute the calibration with `10 * first + last` (do not care if there is only one digit)
+4. Sum them all
+
 Overall, I think it would have taken more time to write this solution instead of the "regex lookahead" one.  
 Also, having to write `eerht` and the like is error-prone.
+
+### Implementation n°4 (Optimization 2)
+
+Doing it myself without regex!
+
+1. Only iterate once over a line, keeping track of possible matches and their index, and stop when the first possible substring is found. Map it onto its integer counterpart.
+2. Do it again but backwards, to find the last possible substring, and map it onto its integer counterpart
+3. Compute the calibration with `10 * first + last` (do not care if there is only one digit)
+4. Sum them all
+
+I added these functions to the library so they can be used again without having to rewrite them.
