@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(year2023
 	2023/day1/ex2023d1.cpp 2023/day1/ex2023d1.h
+	2023/day2/ex2023d2.cpp 2023/day2/ex2023d2.h
 )
 
 add_subdirectory(core)
