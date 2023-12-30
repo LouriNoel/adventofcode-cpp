@@ -4,4 +4,4 @@
 
 Use regex **everywhere**
 
-Do not care about the hands, only the maximum number of cubes per color.
+Do not care about the hands. For each game, compute the maximum number of cubes of each color.

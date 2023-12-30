@@ -1,66 +1,55 @@
 #include "ex2023d2.h"
 
 #include <regex>
+#include <unordered_map>
 
 using namespace std;
 using namespace aoc;
 
 namespace {
-    int computeForColor(const std::string& line, const std::regex& pattern) {
-        std::vector<int> vec;
-        auto begin = std::sregex_iterator(line.begin(), line.end(), pattern);
-        auto end = std::sregex_iterator();
+    void parseLine(const string& line, int& id, int& r, int& g, int& b) {
+        static const regex intPattern(R"(\d+)");
+
+        smatch m;
+        regex_search(line, m, intPattern);
+        id = stoi(m[0]); // the first int is the game's id
+
+        static const regex colorPattern(R"((\d+) (red|green|blue))");
+        unordered_map<string, int*> max_cubes{ {"red", &r}, {"green", &g}, {"blue", &b} };
+        r = 0; g = 0; b = 0;
+
+        auto begin = sregex_iterator(line.begin(), line.end(), colorPattern);
+        auto end = sregex_iterator();
         for (auto it = begin; it != end; ++it) {
-            vec.push_back(stoi((*it)[1]));
-        }
-        auto it = std::max_element(vec.begin(), vec.end());
-        int color = it != vec.end() ? *it : 0;
-        return color;
-    }
-
-    int compute(const std::string& line, int star) {
-        static const int redTarget = 12;
-        static const int greenTarget = 13;
-        static const int blueTarget = 14;
-
-        static const std::regex intPattern(R"((\d+))");
-
-        static const std::regex redPattern(R"((\d+) red)");
-        static const std::regex greenPattern(R"((\d+) green)");
-        static const std::regex bluePattern(R"((\d+) blue)");
-
-        std::smatch m;
-        std::regex_search(line, m, intPattern);
-        int game = stoi(m[1].str());
-
-        int red = computeForColor(line, redPattern);
-        int green = computeForColor(line, greenPattern);
-        int blue = computeForColor(line, bluePattern);
-
-        if (star == 1) {
-            if (blue <= blueTarget && green <= greenTarget && red <= redTarget) {
-                //std::cerr << "OK " << game << " : " << red << " red + " << green << " green + " << blue << " blue -> " << line << std::endl;
-                return game;
-            }
-            else {
-                //std::cerr << "IGNORE " << game << " : " << red << " red + " << green << " green + " << blue << " blue -> " << line << std::endl;
-                return 0;
-            }
-        }
-        else {
-            return blue * green * red;
+            int* cubes = max_cubes[(*it)[2]];
+            *cubes = max(*cubes, stoi((*it)[1]));
         }
     }
 }
 
 long long Ex2023d2::star1(std::istream& input) {
+    static constexpr int redTarget = 12;
+    static constexpr int greenTarget = 13;
+    static constexpr int blueTarget = 14;
+
     int sum = 0;
-    for (std::string line; std::getline(input, line); sum += compute(line, 1));
+    star2_result = 0;
+
+    string line;
+    int id, red, green, blue;
+    while (getline(input, line)) {
+        parseLine(line, id, red, green, blue);
+
+        if (blue <= blueTarget && green <= greenTarget && red <= redTarget) {
+            sum += id;
+        }
+
+        star2_result += blue * green * red;
+    }
+
     return sum;
 }
 
 long long Ex2023d2::star2(std::istream& input) {
-    int sum = 0;
-    for (std::string line; std::getline(input, line); sum += compute(line, 2));
-    return sum;
+    return star2_result;
 }
