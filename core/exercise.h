@@ -9,6 +9,6 @@ namespace aoc {
         virtual long long star2(std::istream& input) = 0;
 
     protected:
-        long long star2_result;
+        long long star2_result = 0;
     };
 }

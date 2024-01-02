@@ -12,6 +12,7 @@
 #pragma region exercises
 #include "2023/day1/ex2023d1.h"
 #include "2023/day2/ex2023d2.h"
+#include "2023/day3/ex2023d3.h"
 #pragma endregion exercises
 
 namespace {
@@ -51,6 +52,7 @@ namespace {
     void setup_factory(aoc::ExerciseFactory& factory) {
         factory.prepare("2023", "day1", [](aoc::ExerciseFactory::PosArgs& args, aoc::ExerciseFactory::OptArgs& options) { return std::make_unique<Ex2023d1>(); });
         factory.prepare("2023", "day2", [](aoc::ExerciseFactory::PosArgs& args, aoc::ExerciseFactory::OptArgs& options) { return std::make_unique<Ex2023d2>(); });
+        factory.prepare("2023", "day3", [](aoc::ExerciseFactory::PosArgs& args, aoc::ExerciseFactory::OptArgs& options) { return std::make_unique<Ex2023d3>(); });
     }
 #pragma endregion factory
 }
