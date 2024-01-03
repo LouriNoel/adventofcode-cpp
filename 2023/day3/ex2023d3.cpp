@@ -3,6 +3,8 @@
 #include <regex>
 #include <vector>
 
+#include "input.h"
+
 using namespace std;
 using namespace aoc;
 
@@ -51,16 +53,18 @@ long long Ex2023d3::star1(std::istream& input) {
     std::vector<std::vector<Number>> numbers;
     std::vector<std::vector<Symbol>> symbols;
 
-    std::string line;
-    while (std::getline(input, line)) {
+    std::vector<std::string> lines;
+    aoc::getgrid(input, '.', lines);
+
+    for (const std::string& line : lines) {
         parseLineForNumbers(line, numbers.emplace_back());
         parseLineForSymbols(line, symbols.emplace_back());
     }
     int n = numbers.size();
 
-    for (int i = 0; i < n; i++) { // for each line
+    for (int i = 0; i < n; ++i) { // for each line
         for (auto& sb : symbols[i]) { // for each symbol of the line
-            for (int j = std::max(0, i - 1); j < std::min(n, i + 2); j++) { // for each neighbouring line
+            for (int j = i - 1; j < i + 2; ++j) { // for each neighbouring line
                 for (auto& nb : numbers[j]) { // for each number of one of these lines (sorted left to right)
                     // f >= nb.start-1 && f <= nb.last
                     if (nb.start - 1 > sb.pos) {

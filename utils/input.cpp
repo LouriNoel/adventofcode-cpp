@@ -9,6 +9,24 @@ namespace aoc {
     void getlines(std::istream& src, std::vector<std::string>& dest) {
         for (std::string line; std::getline(src, line); dest.emplace_back(line));
     }
+    
+    void getgrid(std::istream& src, char border, std::vector<std::string>& dest) {
+        std::string line;
+        std::getline(src, line);
+
+        // top border
+        std::string::size_type n{ line.size() + 2 };
+        dest.emplace_back(n, border);
+        
+        // first line
+        dest.emplace_back(border + line + border);
+        
+        // other lines
+        for (std::string line; std::getline(src, line); dest.emplace_back(border + line + border));
+        
+        // bottom border
+        dest.emplace_back(n, border);
+    }
 
 	void digits(const std::string& src, std::vector<int>& dest) {
         for (const char& c : src) {

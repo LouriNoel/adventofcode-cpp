@@ -16,6 +16,7 @@ namespace aoc {
 	}
 
 	void getlines(std::istream& src, std::vector<std::string>& dest);
+	void getgrid(std::istream& src, char border, std::vector<std::string>& dest);
 
 	void digits(const std::string& src, std::vector<int>& dest);
 
